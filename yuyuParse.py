@@ -9,19 +9,20 @@ Created on Sun Jun 28 23:43:54 2020
 from bs4 import BeautifulSoup
 import requests
 import csv
-"""print(page.content)"""
+
+dict yuyuParse(url):
+
+    # page = requests.get('https://yuyu-tei.jp/game_ws/sell/sell_price.php?name=&vers%5B%5D=dcvslbdc&vers%5B%5D=dcvslblb&rare=&type=&kizu=0')
+    page = requests.get(url)
+
+    soup = BeautifulSoup(page.content, 'html.parser')
+
+    cards = soup.find_all("li", {"class" : "card_unit"})
 
 
-page = requests.get('https://yuyu-tei.jp/game_ws/sell/sell_price.php?name=&vers%5B%5D=dcvslbdc&vers%5B%5D=dcvslblb&rare=&type=&kizu=0')
+    cardDict = {}
 
-soup = BeautifulSoup(page.content, 'html.parser')
-
-cards = soup.find_all("li", {"class" : "card_unit"})
-
-
-cardDict = {}
-
-"""Dictionary of card_id's and prices"""
+"""Dictionary of card_id's and prices, currently only uses base prices"""
 
 """TODO: use Sale Prices and indicate whether or not there's a sale for a specific card (multiple values in dictionary)"""
 
@@ -38,6 +39,7 @@ for card_unit in cards:
     cardDict.update({id : priceNoYen})
     print(id, priceNoYen)
     
+return (cardDict)
 for card_id in cardDict:
     print (card_id, cardDict[card_id])
 
